@@ -245,6 +245,26 @@
   (append glsl-symbols glsl-syntax))
 
 ;;; ===========================
+;;;      usr symbols
+;;; ===========================
+
+;; extend c-symbols with usr symbols
+(defparameter usr-symbols
+  c-symbols)
+
+(defparameter usr-syntax
+  c-syntax)
+
+(defparameter usr-exports
+  (append default-exports
+	  usr-symbols
+	  usr-syntax
+	  cl-symbols))
+
+(defparameter usr-swap
+  (append usr-symbols usr-syntax))
+
+;;; ===========================
 ;;;       core package
 ;;; ===========================
 
@@ -372,6 +392,11 @@
   (:shadow :switch-reader :cl-reader :cm-reader)
   (:import-from :cl-user :glsl-symbols :glsl-swap))
 
+;; c-mera treeops package
+(defpackage* :cm-usr
+  (:shadow-symbols () :export-symbols usr-exports)
+  (:use :c-mera :cm-c))
+
 
 ;;; ============================
 ;;;     c-mera user packages
@@ -420,6 +445,14 @@
   (:use :cmu-c)
   (:import-from :cm-c :decompose-declaration)
   (:shadowing-import-from :cm-glsl :switch-reader
+			  :cl-reader :cm-reader))
+
+;; c-mera treeops user package
+(defpackage* :cmu-usr
+  (:shadow-symbols () :export-symbols usr-exports)
+  (:use :cmu-c)
+  (:import-from :cm-c :decompose-declaration)
+  (:shadowing-import-from :cm-usr :switch-reader
 			  :cl-reader :cm-reader))
 
 ;;; ==================
@@ -483,6 +516,14 @@
 	       (:file "src/c/reader")
 	       (:file "src/c/cm-c"))
   :depends-on ("c-mera"))
+
+(asdf:defsystem cm-usr
+   :name "c-mera c-usr"
+   :version "1.1.0"
+   :serial t
+   :components ((:file "src/usr/tree")
+                (:file "src/usr/usr"))
+   :depends-on ("c-mera"))
 
 (asdf:defsystem cm-c++
   :name "c-mera c++"
@@ -577,6 +618,14 @@
 	       "cmu-c"
 	       "cm-glsl"))
 
+(asdf:defsystem cmu-usr
+  :name "c-mera user usr"
+  :version "1.1.0"
+  :depends-on ("c-mera"
+	       "cm-c"
+	       "cmu-c"
+	       "cm-usr"))
+
 ;; swap systems
 
 (asdf:defsystem cms-c
@@ -603,3 +652,8 @@
   :name "c-mera swap glsl"
   :version "1.1.0"
   :depends-on ("cmu-glsl"))
+
+(asdf:defsystem cms-usr
+  :name "c-mera swap usr"
+  :version "1.1.0"
+  :depends-on ("cmu-usr"))

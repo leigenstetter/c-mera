@@ -1,4 +1,4 @@
-bin_PROGRAMS = cm cm-c cm-cxx cm-glsl cm-cuda cm-opencl
+bin_PROGRAMS = cm cm-c cm-cxx cm-glsl cm-cuda cm-opencl cm-usr
 
 AUTOMAKE_OPTIONS = subdir-objects
 
@@ -42,6 +42,9 @@ cm_opencl_SOURCES = src/opencl/nodes.lisp \
 					src/opencl/pretty.lisp \
 					src/opencl/cm-opencl.lisp
 
+cm_usr_SOURCES = src/usr/tree.lisp \
+                src/usr/usr.lisp
+
 # since we store $(bindir) in the front-end program we have to make sure to recompile
 # when the Makefile changes (potential change of prefix.
 cm_SOURCES = src/front/cm.c
@@ -64,7 +67,10 @@ cm-cuda$(EXEEXT): $(cm_c_SOURCES) $(cm_cxx_SOURCES) $(cm_cuda_SOURCES)
 cm-opencl$(EXEEXT): $(cm_c_SOURCES) $(cm_cxx_SOURCES) $(cm_opencl_SOURCES)
 	@LISP_PROG@ @DYNAMIC_SPACE_SPEC@ @LISP_LOAD_ARG@ util/build/dump-opencl.lisp
 
+cm-usr$(EXEEXT): $(cm_c_SOURCES) $(cm_usr_SOURCES)
+	@LISP_PROG@ @DYNAMIC_SPACE_SPEC@ @LISP_LOAD_ARG@ util/build/dump-usr.lisp
+
 EXTRA_DIST = util/build/dump-c.lisp   util/build/dump-glsl.lisp \
 			 util/build/dump-cxx.lisp util/build/dump-cuda.lisp \
-			 util/build/dump-opencl.lisp
+			 util/build/dump-opencl.lisp util/build/dump-usr.lisp
 

@@ -1,15 +1,15 @@
 # Process this file with autoconf to produce a configure script.
-AC_PREREQ(2.61)
-AC_INIT([c-mera], [1.0.1])
+AC_PREREQ([2.71])
+AC_INIT([c-mera],[1.0.1])
 AM_INIT_AUTOMAKE
 
 AC_CONFIG_MACRO_DIR([m4])
 
 AC_CONFIG_SRCDIR([c-mera.asd])
-AC_CONFIG_HEADER([config.h])
+AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_FILES(Makefile
 				util/build/dump-c.lisp    util/build/dump-cuda.lisp util/build/dump-cxx.lisp
-				util/build/dump-glsl.lisp util/build/dump-opencl.lisp)
+				util/build/dump-glsl.lisp util/build/dump-opencl.lisp util/build/dump-usr.lisp)
 
 AC_PROG_CC
 

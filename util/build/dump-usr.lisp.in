@@ -1,0 +1,9 @@
+;; @configure_input@
+(require :asdf)
+(let ((asdf:*central-registry* (cons #P"@abs_top_srcdir@/" asdf:*central-registry*)))
+  (require :c-mera)
+  (require :cms-usr))
+(push :cm-usr *features*)
+(setf c-mera:*generator* :usr)
+(cm-usr::save "cm-usr")
+(quit)
