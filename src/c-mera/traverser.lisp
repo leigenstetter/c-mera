@@ -276,9 +276,12 @@
 ;;; Simply print all node types while traversing the tree.
 (defclass debug-traverser ()())
 (defmethod traverser :before ((debug debug-traverser) (item t) level)
-  (format t "~&~a~a~%" 
+  (format t "~&~a~a: ~a~%"
 	  (eval `(concatenate 'string ,@(loop for i from 0 to level collect " ")))
-	  (class-name (class-of item))))
+	  (class-name (class-of item))
+      (if (typep item 'identifier)
+          (slot-value item 'identifier)
+          ())))
 
 (defclass copy-traverser ()
   ((stack :initform '())
