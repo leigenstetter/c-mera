@@ -522,7 +522,8 @@
    :version "1.1.0"
    :serial t
    :components ((:file "src/usr/tree")
-                (:file "src/usr/usr"))
+                (:file "src/usr/usr")
+                (:file "src/usr/traverser"))
    :depends-on ("c-mera"))
 
 (asdf:defsystem cm-c++

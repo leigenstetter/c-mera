@@ -20,7 +20,8 @@
    else-if-traverser
    if-blocker
    decl-blocker
-   renamer))
+   renamer
+   usr-hook))
 
  ;; Define a save function
 (save-generator

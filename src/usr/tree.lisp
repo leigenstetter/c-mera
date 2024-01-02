@@ -1,4 +1,4 @@
-(in-package :cm-usr)
+(in-package :cmu-usr)
 
 
 ;;;
@@ -36,17 +36,6 @@
 		     ,(cl:first rev)))
       `(slot-value ,base ,cl:last)))
 
-
-;; these are used to find all function definitions in a sub-tree.
-(defclass function-extractor () 
-  ((functions :initform nil
-	      :documentation "Stores the list of function-nodes found in a tree.")))
-
-(defmethod c-mera::traverser ((ext function-extractor) (node cm-c::function-definition) level)
-  (push node (slot-value ext 'functions))
-  (call-next-method))
-
-
 ;;;
 ;;; find declaration names
 ;;;
@@ -55,20 +44,42 @@
   (:documentation "Find the names of declared variables (as given in
   FUNCTION and DECL forms."))
 
-(defmethod decl-name ((node cm-c::identifier))
-  (slot-value node 'cm-c::identifier))
+(defmethod decl-name ((node c-mera::identifier))
+  (slot-value node 'c-mera::identifier))
 
 (defmethod decl-name ((node  cm-c::function-definition))
   (decl-name (slot-value node 'c-mera:item)))
 
 (defmethod decl-name ((node  cm-c::declaration-item))
-  (decl-name (slot-value node 'cm-c::identifier)))
+  (decl-name (slot-value node 'c-mera::identifier)))
 
 (defmethod decl-name ((node cm-c::source-position))
   (decl-name (slot-value node 'c-mera::subnode)))
 
 (defmethod decl-name ((node cm-c::prefix-expression))
   (decl-name (slot-value node 'c-mera::object)))
+
+;;;
+;;; modify declaration names
+;;;
+
+(defgeneric set-name (node name)
+  (:documentation "set the name of a declard variable"))
+
+(defmethod set-name ((node c-mera::identifier) name)
+  (setf (slot-value node 'c-mera::identifier) name))
+
+(defmethod set-name ((node cm-c::function-definition) name)
+  (set-name (slot-value node 'c-mera::item) name))
+
+(defmethod set-name ((node cm-c::declaration-item) name)
+  (set-name (slot-value node 'c-mera::identifier) name))
+
+(defmethod set-name ((node cm-c::source-position) name)
+  (set-name (slot-value node 'c-mera::subnode) name))
+
+(defmethod set-name ((node cm-c::prefix-expression) name)
+  (set-name (slot-value node 'c-mera::object) name))
 
 ;;;
 ;;; find parameter names (of a function definition)
