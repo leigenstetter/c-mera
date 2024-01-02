@@ -26,7 +26,7 @@
 (save-generator
  :name save
  :start-function to-processor
- :in-package :cmu-to)
+ :in-package :cmu-usr)
 
 ;;; Define a reader switch with c++ pre-processing
 (define-switch
