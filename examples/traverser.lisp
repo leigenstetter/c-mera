@@ -1,5 +1,5 @@
 ;;;
-;;; simple example for a post-op
+;;; simple example of a user traverser
 ;;;
 
 ;class for a custom traverser

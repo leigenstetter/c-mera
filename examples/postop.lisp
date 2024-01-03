@@ -1,5 +1,5 @@
 ;;;
-;;; simple example for a post-op
+;;; simple example of a post-op
 ;;;
 
 ;; these are used to find all function definitions in a sub-tree.
