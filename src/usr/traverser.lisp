@@ -9,5 +9,5 @@
 
 ;entry point for user traversers
 (defmethod c-mera::traverser ((hook cm-usr::usr-hook) (node c-mera::node) level)
-  (loop for usr-traverser in *traversers* do
+  (loop for usr-traverser in (reverse *traversers*) do
     (c-mera::traverser usr-traverser node level)))
