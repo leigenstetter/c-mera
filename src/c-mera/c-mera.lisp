@@ -52,10 +52,11 @@
   
 
 ;;; Defines the start-up command of the lisp-executable.
-(defmacro define-processor (&key name file-reader string-reader extra-traverser)
+(defmacro define-processor (&key name file-reader string-reader extra-traverser extra-command)
   (let ((extras (loop for i in extra-traverser collect
 			 `(traverser (make-instance ',i) tree 0))))
     `(defun ,name (args)
+       (eval ,extra-command)
        (multiple-value-bind (input output debug) (parse-cmdline args ,string-reader)
 	 (when input
 	   (let ((tree nil)

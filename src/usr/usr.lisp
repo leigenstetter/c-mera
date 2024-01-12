@@ -12,7 +12,7 @@
 
 ;; Define a start-up function
 (define-processor
-  :name to-processor
+  :name usr-processor
   :file-reader   read-in-file
   :string-reader read-in-string
   :extra-traverser
@@ -21,12 +21,13 @@
    if-blocker
    decl-blocker
    renamer
-   usr-hook))
+   usr-hook)
+  :extra-command '(startup))
 
  ;; Define a save function
 (save-generator
  :name save
- :start-function to-processor
+ :start-function usr-processor
  :in-package :cmu-usr)
 
 ;;; Define a reader switch with c++ pre-processing
@@ -46,3 +47,7 @@
    (set-macro-character #\Tab #'cm-c::pre-process)
    (set-macro-character #\Newline #'cm-c::pre-process)
    (set-macro-character #\( #'cm-c::pre-process-heads)))
+
+
+(defmacro startup(&rest body)
+  `(progn ,@body))
