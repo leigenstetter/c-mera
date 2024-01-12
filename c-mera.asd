@@ -394,7 +394,7 @@
 
 ;; c-mera treeops package
 (defpackage* :cm-usr
-  (:shadow-symbols () :export-symbols usr-exports)
+  (:shadow-symbols () :export-symbols usr-backend)
   (:use :c-mera :cm-c))
 
 
@@ -521,7 +521,8 @@
    :name "c-mera c-usr"
    :version "1.1.0"
    :serial t
-   :components ((:file "src/usr/tree")
+   :components ((:file "src/usr/syntax")
+                (:file "src/usr/tree")
                 (:file "src/usr/usr")
                 (:file "src/usr/traverser"))
    :depends-on ("c-mera"))
