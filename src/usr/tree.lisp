@@ -59,12 +59,25 @@
 (defmethod decl-name ((node cm-c::prefix-expression))
   (decl-name (slot-value node 'c-mera::object)))
 
+(defmethod cmu-usr::decl-name ((node cm-usr::invisible-node))
+  (slot-value node 'cm-usr::invisible-node))
+
+(defmethod decl-name ((node cm-c::postfix-expression))
+  (decl-name (slot-value node 'cm-c::object)))
+
+(defmethod decl-name ((node cm-c::type))
+  (decl-name (slot-value node 'cm-c::type)))
+
+(defmethod decl-name ((node t))
+  (format t "warning: no name method for this type ~a" node)
+  nil)
+
 ;;;
 ;;; modify declaration names
 ;;;
 
 (defgeneric set-name (node name)
-  (:documentation "set the name of a declard variable"))
+  (:documentation "set the name of a declared variable"))
 
 (defmethod set-name ((node c-mera::identifier) name)
   (setf (slot-value node 'c-mera::identifier) name))
@@ -80,6 +93,18 @@
 
 (defmethod set-name ((node cm-c::prefix-expression) name)
   (set-name (slot-value node 'c-mera::object) name))
+
+(defmethod cmu-usr::set-name ((node cm-usr::invisible-node) name)
+  (setf (slot-value node 'cm-usr::invisible-node) name))
+
+(defmethod set-name ((node cm-c::postfix-expression) name)
+  (set-name (slot-value node 'cm-c::object) name))
+
+(defmethod set-name ((node cm-c::type) name)
+  (set-name (slot-value node 'cm-c::type)name))
+
+(defmethod set-name ((node cm-c::specifier) name)
+  (setf (slot-value node 'specifier) name))
 
 ;;;
 ;;; find parameter names (of a function definition)

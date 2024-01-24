@@ -8,7 +8,9 @@
   ((set-macro-character #\Space #'cm-c::pre-process)
    (set-macro-character #\Tab #'cm-c::pre-process)
    (set-macro-character #\Newline #'cm-c::pre-process)
-   (set-macro-character #\( #'cm-c::pre-process-heads)))
+   (set-macro-character #\( #'cm-c::pre-process-heads))
+  :pre-tree  '(pre-tree (make-nodelist nil))
+  :post-tree  '(post-tree (make-nodelist nil)))
 
 ;; Define a start-up function
 (define-processor
@@ -21,8 +23,7 @@
    if-blocker
    decl-blocker
    renamer
-   usr-hook)
-  :extra-command '(startup))
+   usr-hook))
 
  ;; Define a save function
 (save-generator
@@ -47,7 +48,3 @@
    (set-macro-character #\Tab #'cm-c::pre-process)
    (set-macro-character #\Newline #'cm-c::pre-process)
    (set-macro-character #\( #'cm-c::pre-process-heads)))
-
-
-(defmacro startup(&rest body)
-  `(progn ,@body))
