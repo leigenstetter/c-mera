@@ -1,6 +1,6 @@
 (in-package :c-mera)
 
-(defmacro define-reader (&key file-reader string-reader macro-character)
+(defmacro define-reader (&key file-reader string-reader macro-character pre-tree post-tree)
   `(progn
      (defun ,file-reader (file &key (debug nil))
        "Read c-mera source file and return AST"
@@ -25,6 +25,10 @@
 	   ;#+clozure (error (err) (let ((*print-pretty* t))
 	   ;			    (format *error-output* "~a" err))))
 	 ;; Return single AST
+     (when ,pre-tree
+       (setf asts (push (eval ,pre-tree) asts)))
+     (when ,post-tree
+       (setf asts (append asts (list (eval ,post-tree)))))
 	 (nodelist asts)))
      (defun ,string-reader (str)
        "Rread c-mera source string and return AST"

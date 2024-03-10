@@ -96,6 +96,8 @@
 (defparameter glsl-backend
   (append c-backend '(layout)))
 
+(defparameter usr-backend
+  (append c-backend '(invisible-node)))
 
 ;;; =======================
 ;;;      c symbols
@@ -394,7 +396,7 @@
 
 ;; c-mera treeops package
 (defpackage* :cm-usr
-  (:shadow-symbols () :export-symbols usr-exports)
+  (:shadow-symbols () :export-symbols usr-backend)
   (:use :c-mera :cm-c))
 
 
@@ -480,6 +482,9 @@
 (defpackage :cms-glsl
   (:use))
 
+(defpackage :cms-usr
+  (:use))
+
 
 ;;; =====================
 ;;;    asdf systems
@@ -521,9 +526,11 @@
    :name "c-mera c-usr"
    :version "1.1.0"
    :serial t
-   :components ((:file "src/usr/tree")
-                (:file "src/usr/usr"))
-   :depends-on ("c-mera"))
+   :components ((:file "src/usr/usr")
+                (:file "src/usr/syntax")
+                (:file "src/usr/traverser")
+                (:file "src/usr/tree"))
+   :depends-on ("c-mera" "cm-c"))
 
 (asdf:defsystem cm-c++
   :name "c-mera c++"

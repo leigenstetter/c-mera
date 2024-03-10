@@ -42,8 +42,10 @@ cm_opencl_SOURCES = src/opencl/nodes.lisp \
 					src/opencl/pretty.lisp \
 					src/opencl/cm-opencl.lisp
 
-cm_usr_SOURCES = src/usr/tree.lisp \
-                src/usr/usr.lisp
+cm_usr_SOURCES = src/usr/syntax.lisp \
+                 src/usr/tree.lisp \
+                 src/usr/usr.lisp \
+                 src/usr/traverser.lisp
 
 # since we store $(bindir) in the front-end program we have to make sure to recompile
 # when the Makefile changes (potential change of prefix.
