@@ -69,7 +69,7 @@
   (decl-name (slot-value node 'cm-c::type)))
 
 (defmethod decl-name ((node t))
-  (format t "warning: no name method for this type ~a" node)
+  ;(format t "warning: no name method for this type ~a" node)
   nil)
 
 ;;;
